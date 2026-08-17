@@ -22,8 +22,13 @@
 
 .heroRow {
   display: grid;
-  grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.5fr);
-  gap: 48px;
+
+  grid-template-columns:
+    minmax(430px, 0.82fr)
+    minmax(0, 1.55fr);
+
+  column-gap: clamp(50px, 6vw, 110px);
+
   align-items: center;
 }
 
@@ -32,43 +37,125 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+
+  width: 100%;
   min-height: 100%;
 }
+
 
 .title {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  justify-content: center;
+
+  width: max-content;
+  max-width: 100%;
+
   margin: 0;
-  color: #ffffff;
-  font-size: clamp(4.1rem, 6vw, 10rem);
-  line-height: 0.82;
-  letter-spacing: -0.08em;
+  padding: 0;
+
+  color: #fff;
+
+  /*
+   * Impact gives the closest result without requiring
+   * an external font. If you have Anton installed/imported,
+   * place it before Impact.
+   */
+  font-family:
+    "Anton",
+    "Arial Narrow",
+    Impact,
+    Haettenschweiler,
+    "Arial Narrow Bold",
+    sans-serif;
+
+  font-size: clamp(4.8rem, 7.1vw, 8.8rem);
+
+  font-weight: 900;
+
+  /*
+   * Important:
+   * Don't use the previous -0.08em.
+   * It was causing the letters to visually collide.
+   */
+  letter-spacing: -0.025em;
+
+  line-height: 0.78;
+
+  text-align: left;
   text-transform: uppercase;
-  font-weight: 800;
+
+  white-space: nowrap;
 }
 
+
+/* Every word has exactly the same alignment */
 .build,
+.learn,
 .share {
   display: block;
-  font-weight: 800;
+
+  margin: 0;
+  padding: 0;
+
+  font-family:
+    "Anton",
+    "Arial Narrow",
+    Impact,
+    Haettenschweiler,
+    "Arial Narrow Bold",
+    sans-serif;
+
+  font-size: inherit;
+  font-weight: 900;
+
+  letter-spacing: inherit;
+  line-height: inherit;
+
+  text-align: left;
+}
+
+
+/* Solid white words */
+.build,
+.share {
+  color: #fff;
+
+  -webkit-text-fill-color: #fff;
+  -webkit-text-stroke: 0;
+
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .learn {
-  display: block;
-  color: #000000;
-  -webkit-text-stroke: 1.2px #ffffff;
+  color: transparent;
+
   -webkit-text-fill-color: transparent;
-  font-weight: 800;
+
+  /*
+   * Reference-style thin white outline
+   */
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.75);
+
+  text-shadow: none;
 }
 
 .description {
-  margin: 22px 0 0;
-  max-width: 620px;
+  margin: 30px 0 0;
+
+  max-width: 580px;
+
   color: rgba(255, 255, 255, 0.68);
-  font-size: clamp(1.3rem, 1.8vw, 2rem);
-  line-height: 1.35;
-  letter-spacing: -0.03em;
+
+  font-size: clamp(1.05rem, 1.35vw, 1.5rem);
+
+  line-height: 1.45;
+
+  letter-spacing: -0.015em;
+
+  text-align: left;
 }
 
 .featured {
@@ -95,7 +182,6 @@
   background-position: center;
   border: 1px solid rgba(255, 255, 255, 0.11);
   transition: transform 0.35s ease, border-color 0.35s ease, filter 0.35s ease;
-  filter: grayscale(100%) contrast(1.06) brightness(0.82);
 }
 
 .featuredThumb {
@@ -112,7 +198,6 @@
 .cardLink:hover .cardThumb {
   transform: scale(1.02);
   border-color: rgba(255, 255, 255, 0.22);
-  filter: grayscale(100%) contrast(1.12) brightness(0.96);
 }
 
 .featuredThumb::before,
@@ -120,7 +205,15 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(10, 10, 10, 0.1), rgba(10, 10, 10, 0.32));
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.02),
+      rgba(0, 0, 0, 0.12)
+    );
+
+  pointer-events: none;
 }
 
 .playBadge,
@@ -169,8 +262,8 @@
   margin: 0 0 6px;
   color: #ffffff;
   font-size: clamp(1.3rem, 2vw, 1.9rem);
-  font-weight: 600;
-  letter-spacing: -0.04em;
+  font-weight: 500;
+  letter-spacing: -0.01em;
 }
 
 .featuredCategory {
@@ -205,7 +298,7 @@
   font-size: 11px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .cardTitle {
@@ -213,8 +306,8 @@
   color: #ffffff;
   font-size: clamp(1.05rem, 1.5vw, 1.45rem);
   line-height: 1.2;
-  letter-spacing: -0.04em;
-  font-weight: 600;
+  letter-spacing: -0.01em;
+  font-weight: 500;
 }
 
 .cardCategory {
@@ -223,6 +316,82 @@
   font-size: 0.82rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.emptyState,
+.errorState {
+  margin-top: 20px;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.featuredSkeleton,
+.cardSkeleton {
+  width: 100%;
+}
+
+.skeletonThumb,
+.skeletonThumbSmall,
+.skeletonLineLg,
+.skeletonLineMd,
+.skeletonLineSm,
+.skeletonLineXs {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.16) 50%, rgba(255, 255, 255, 0.08) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.35s infinite linear;
+}
+
+.skeletonThumb {
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+}
+
+.skeletonThumbSmall {
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+}
+
+.skeletonMeta {
+  padding-top: 18px;
+}
+
+.skeletonLineLg {
+  width: min(74%, 380px);
+  height: 22px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
+.skeletonLineMd {
+  width: 42%;
+  height: 11px;
+  border-radius: 999px;
+}
+
+.skeletonLineSm {
+  width: 56%;
+  height: 10px;
+  border-radius: 999px;
+  margin-top: 14px;
+}
+
+.skeletonLineXs {
+  width: 34%;
+  height: 10px;
+  border-radius: 999px;
+  margin: 16px 0 10px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 .cta {
@@ -258,17 +427,21 @@
 }
 
 @media (max-width: 991px) {
-  .section {
-    padding-top: 22px;
-  }
-
-  .shell {
-    padding-top: 18px;
-  }
-
   .heroRow {
     grid-template-columns: 1fr;
-    gap: 26px;
+    gap: 35px;
+  }
+
+  .copyBlock {
+    width: 100%;
+  }
+
+  .title {
+    font-size: clamp(4.5rem, 13vw, 7rem);
+  }
+
+  .description {
+    margin-top: 26px;
   }
 
   .featured {
@@ -282,25 +455,27 @@
 }
 
 @media (max-width: 767px) {
-  .shell {
-    max-width: 100%;
+  .title {
+    font-size: clamp(4rem, 17vw, 6rem);
+
+    letter-spacing: -0.02em;
+
+    line-height: 0.82;
+  }
+
+  .learn {
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.75);
   }
 
   .description {
-    margin-bottom: 24px;
+    margin-top: 24px;
+
+    font-size: 1rem;
   }
 
   .grid {
     grid-template-columns: 1fr;
     gap: 18px;
-  }
-
-  .featuredThumb {
-    border-radius: 14px;
-  }
-
-  .cardThumb {
-    border-radius: 10px;
   }
 }
 
@@ -309,7 +484,22 @@
   .cardThumb,
   .playBadge,
   .cardPlay,
-  .cta a span {
+  .cta a span,
+  .skeletonThumb,
+  .skeletonThumbSmall,
+  .skeletonLineLg,
+  .skeletonLineMd,
+  .skeletonLineSm,
+  .skeletonLineXs {
     transition: none !important;
+  }
+
+  .skeletonThumb,
+  .skeletonThumbSmall,
+  .skeletonLineLg,
+  .skeletonLineMd,
+  .skeletonLineSm,
+  .skeletonLineXs {
+    animation: none !important;
   }
 }
