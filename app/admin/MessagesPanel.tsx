@@ -21,18 +21,34 @@ export default function MessagesPanel({ token }: { token: string }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   const loadData = useCallback(async () => {
     setLoading(true);
-    const [msgRes, statsRes] = await Promise.all([
-      fetch(`${API_URL}/api/contact`, { headers: { Authorization: `Bearer ${token}` } }),
-      fetch(`${API_URL}/api/resume/stats`, { headers: { Authorization: `Bearer ${token}` } }),
-    ]);
-    const msgBody = await msgRes.json();
-    const statsBody = await statsRes.json();
-    setMessages(msgBody.data);
-    setStats(statsBody.data);
-    setLoading(false);
+    setLoadError(null);
+
+    try {
+      const [msgRes, statsRes] = await Promise.all([
+        fetch(`${API_URL}/api/contact`, { headers: { Authorization: `Bearer ${token}` } }),
+        fetch(`${API_URL}/api/resume/stats`, { headers: { Authorization: `Bearer ${token}` } }),
+      ]);
+
+      const msgBody = await msgRes.json().catch(() => null);
+      const statsBody = await statsRes.json().catch(() => null);
+
+      setMessages(Array.isArray(msgBody?.data) ? msgBody.data : []);
+      setStats(statsBody?.data && typeof statsBody.data === "object" ? statsBody.data : null);
+
+      if (!msgRes.ok || !statsRes.ok) {
+        setLoadError("Some admin data could not be loaded.");
+      }
+    } catch {
+      setMessages([]);
+      setStats(null);
+      setLoadError("Some admin data could not be loaded.");
+    } finally {
+      setLoading(false);
+    }
   }, [token]);
 
   useEffect(() => {
@@ -75,7 +91,8 @@ export default function MessagesPanel({ token }: { token: string }) {
 
       <h2 style={{ fontSize: 20, marginBottom: 16 }}>Contact Messages</h2>
       {loading && <p>Loading…</p>}
-      {!loading && messages.length === 0 && <p>No messages yet.</p>}
+      {!loading && loadError && <p style={{ color: "#ff8080" }}>{loadError}</p>}
+      {!loading && !loadError && messages.length === 0 && <p>No messages yet.</p>}
       {messages.map((m) => (
         <div key={m.id} style={styles.itemCard}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
