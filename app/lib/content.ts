@@ -27,21 +27,28 @@ export interface Highlight {
   orderIndex: number;
 }
 
-export interface Testimonial {
-  id: string;
-  name: string;
-  role: string;
-  quote: string;
-  thumb: string | null;
-  orderIndex: number;
-}
-
 export interface Certificate {
   id: string;
-  title: string;
-  thumb: string | null;
+  name: string;
+  issuer: string;
+  skills: string[];
+  image: string | null;
+  imageUrl: string | null;
+  isPublished: boolean;
   orderIndex: number;
-  skills?: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface YouTubeVideo {
+  id: string;
+  title: string;
+  category: string;
+  thumbnail: string;
+  url: string;
+  publishedAt: string;
+  description?: string;
+  channelTitle?: string;
 }
 
 async function safeFetch<T>(path: string, fallback: T[]): Promise<T[]> {
@@ -69,10 +76,16 @@ export function getHighlights() {
   return safeFetch<Highlight>("/api/highlights", []);
 }
 
-export function getTestimonials() {
-  return safeFetch<Testimonial>("/api/testimonials", []);
-}
-
 export function getCertificates() {
   return safeFetch<Certificate>("/api/certificates", []);
+}
+
+export async function getYouTubeVideos(): Promise<YouTubeVideo[]> {
+  const res = await fetch(`${API_URL}/api/youtube/videos`, { cache: "no-store" });
+  if (!res.ok) {
+    throw new Error(`Failed to load YouTube videos (${res.status})`);
+  }
+
+  const body = (await res.json()) as { data?: YouTubeVideo[] };
+  return body.data ?? [];
 }

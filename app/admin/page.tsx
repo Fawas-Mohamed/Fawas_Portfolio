@@ -6,10 +6,9 @@ import MessagesPanel from "./MessagesPanel";
 import ProjectsPanel from "./ProjectsPanel";
 import SkillsPanel from "./SkillsPanel";
 import HighlightsPanel from "./HighlightsPanel";
-import TestimonialsPanel from "./TestimonialsPanel";
 import CertificationsPanel from "./CertificationsPanel";
 
-type Tab = "messages" | "projects" | "skills" | "highlights" | "testimonials" | "certifications";
+type Tab = "messages" | "projects" | "skills" | "highlights" | "certificates";
 
 export default function AdminPage() {
   const [token, setToken] = useState<string | null>(null);
@@ -86,8 +85,7 @@ export default function AdminPage() {
     { key: "projects", label: "Projects" },
     { key: "skills", label: "Skills" },
     { key: "highlights", label: "Highlights" },
-    { key: "testimonials", label: "Testimonials" },
-    { key: "certifications", label: "Certifications" },
+    { key: "certificates", label: "Certificates" },
   ];
 
   return (
@@ -112,8 +110,7 @@ export default function AdminPage() {
         {tab === "projects" && <ProjectsPanel token={token} />}
         {tab === "skills" && <SkillsPanel token={token} />}
         {tab === "highlights" && <HighlightsPanel token={token} />}
-        {tab === "testimonials" && <TestimonialsPanel token={token} />}
-        {tab === "certifications" && <CertificationsPanel token={token} />}
+        {tab === "certificates" && <CertificationsPanel token={token} />}
       </div>
     </div>
   );

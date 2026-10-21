@@ -10069,5 +10069,232 @@ body.tw-magic-cursor #magic-cursor {
     margin-block-end: 60px;
   }
 }
+.certificate-heading {
+  margin-block-end: clamp(32px, 4vw, 56px);
+}
+
+.certificate-slider {
+  width: 100%;
+  min-width: 0;
+  margin-inline: auto;
+}
+
+.certificate-slider[data-certificate-count="1"] {
+  max-width: 560px;
+}
+
+.certificate-slider[data-certificate-count="2"] {
+  max-width: 1144px;
+}
+
+.certificate-swiper {
+  width: 100%;
+  overflow: hidden;
+  padding-block: 4px 16px;
+}
+
+.certificate-swiper .swiper-wrapper {
+  align-items: stretch;
+}
+
+.certificate-slide {
+  box-sizing: border-box;
+  display: flex;
+  min-width: 0;
+  height: auto;
+  align-items: stretch;
+}
+
+.certificate-card {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 18px;
+  background: #f5f5f5;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+}
+
+.certificate-card-image {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 260px;
+  width: 100%;
+  height: 260px;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow: hidden;
+  background: #fff;
+  border-bottom: 1px solid rgba(10, 74, 60, 0.1);
+}
+
+.certificate-card-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.certificate-image-placeholder {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.certificate-card-icon {
+  color: var(--main-two-600);
+  font-size: 48px;
+  line-height: 1;
+}
+
+.certificate-card-content {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+  text-align: center;
+}
+
+.certificate-card-name,
+.certificate-card-issuer {
+  display: -webkit-box;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.certificate-card-name {
+  min-height: 2.5em;
+  color: hsl(var(--heading-color));
+  font-size: clamp(1.5rem, 1.7vw, 2rem);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.certificate-card-issuer {
+  min-height: 3em;
+  color: #39464e;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.certificate-card-skills {
+  display: flex;
+  max-width: 100%;
+  min-height: 72px;
+  margin-block-start: auto;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: center;
+  gap: 8px;
+}
+
+.certificate-skill-pill {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  overflow-wrap: anywhere;
+  border: 1px solid rgba(10, 74, 60, 0.18);
+  border-radius: 999px;
+  color: hsl(var(--heading-color));
+  font-size: 0.8rem;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.certificate-skill-dot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  border-radius: 50%;
+  background: var(--main-two-600);
+}
+
+.certificate-card--empty {
+  min-height: 180px;
+}
+
+.certificate-card--empty .certificate-card-content {
+  justify-content: center;
+}
+
+.certificate-card-empty {
+  margin: 0;
+  color: hsl(var(--heading-color));
+  font-size: 1.1rem;
+}
+
+.certificate-slider-controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-block-start: 20px;
+}
+
+.certificate-slider-prev,
+.certificate-slider-next {
+  display: inline-flex;
+  width: 46px;
+  height: 46px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(10, 74, 60, 0.2);
+  border-radius: 50%;
+  background: #fff;
+  color: hsl(var(--heading-color));
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.certificate-slider-prev:hover,
+.certificate-slider-next:hover {
+  border-color: #f2b759;
+  background: #f2b759;
+}
+
+.certificate-slider-prev:focus-visible,
+.certificate-slider-next:focus-visible {
+  outline: 2px solid #0a4a3c;
+  outline-offset: 4px;
+}
+
+.certificate-slider-controls .swiper-button-disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.certificate-slider-controls .swiper-button-lock {
+  display: none;
+}
+
+@media screen and (max-width: 767px) {
+  .certificate-card-image {
+    flex-basis: 220px;
+    height: 220px;
+    padding: 12px;
+  }
+
+  .certificate-card-content {
+    padding: 20px 18px;
+  }
+}
 
 /*# sourceMappingURL=main.css.map */

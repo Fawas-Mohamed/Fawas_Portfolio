@@ -6,12 +6,10 @@ import {
   getProjects,
   getSkills,
   getHighlights,
-  getTestimonials,
   getCertificates,
   Project,
   Skill,
   Highlight,
-  Testimonial,
   Certificate,
 } from "./lib/content";
 
@@ -34,33 +32,18 @@ const fallbackHighlights: Highlight[] = [
   { id: "h4", number: "04", title: "Cloud Deployment & DevOps", tags: ["Azure", "Vercel", "CI/CD"], thumb: "service-three-thumb4.png", orderIndex: 3 },
 ];
 
-const fallbackTestimonials: Testimonial[] = [
-  { id: "t1", name: "Mohamed Rilwan", role: "Senior Manager, Information System Audit — Deloitte", quote: "A dependable engineer who reasons carefully about correctness, not just features — the kind of judgment you want on a live system.", thumb: "testimonial-three-thumb1.jpg", orderIndex: 0 },
-  { id: "t2", name: "Ms. Pavitha Subashini", role: "Senior Lecturer, Dept. of Software Engineering — NSBM Green University", quote: "Consistently curious and thorough — takes on unfamiliar tools and frameworks independently and comes back with a working understanding.", thumb: "testimonial-three-thumb2.jpg", orderIndex: 1 },
-];
-
-const fallbackCertificates: Certificate[] = [
-  { id: "c1", title: "AWS Certified Developer", thumb: "cert1.jpg", orderIndex: 0, skills: ["AWS", "Serverless", "CI/CD"] },
-  { id: "c2", title: "Professional TypeScript", thumb: "cert2.jpg", orderIndex: 1, skills: ["TypeScript", "TSConfig", "Tooling"] },
-  { id: "c3", title: "Playwright Testing", thumb: "cert3.jpg", orderIndex: 2, skills: ["E2E", "Playwright", "Automation"] },
-  { id: "c4", title: "Azure Fundamentals", thumb: "cert4.jpg", orderIndex: 3, skills: ["Azure", "Cloud", "Deployment"] },
-  { id: "c5", title: "Database Design", thumb: "cert5.jpg", orderIndex: 4, skills: ["Postgres", "Modeling", "SQL"] },
-];
-
 export default async function Home() {
-  const [fetchedProjects, fetchedSkills, fetchedHighlights, fetchedTestimonials, fetchedCertificates] = await Promise.all([
+  const [fetchedProjects, fetchedSkills, fetchedHighlights, fetchedCertificates] = await Promise.all([
     getProjects(),
     getSkills(),
     getHighlights(),
-    getTestimonials(),
     getCertificates(),
   ]);
 
   const projects = fetchedProjects.length ? fetchedProjects : fallbackProjects;
   const skills = fetchedSkills.length ? fetchedSkills : fallbackSkills;
   const highlights = fetchedHighlights.length ? fetchedHighlights : fallbackHighlights;
-  const testimonials = fetchedTestimonials.length ? fetchedTestimonials : fallbackTestimonials;
-  const certificates = fetchedCertificates.length ? fetchedCertificates : fallbackCertificates;
+  const certificates = fetchedCertificates;
 
   return (
     <>
@@ -649,144 +632,97 @@ export default async function Home() {
           {/* ==================== YouTube / Content Creation ==================== */}
           <YouTubeSection />
 
-          {/* ==================== Testimonials (references) ==================== */}
-          <section className="testimonial-three-area pt-120 tw-pb-22" id="references">
+          {/* ==================== Certifications ==================== */}
+          <section
+            className="certificate-section testimonial-three-area pt-120 tw-pb-22"
+            id="certificates"
+            aria-labelledby="certificates-title"
+          >
             <div className="container tw-container-1800-px">
-              <div className="row justify-content-center tw-mb-21">
-                <div className="col-xl-10">
-                  <div className="text-center">
-                    <h2 className="testimonial-three-title text-heading tw-text-15 tw-itm-title tw-itm-anim">
-                      What people I&apos;ve worked with and studied under have said about the work.
-                    </h2>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-xl-12">
-                  <div className="testimonial-three-slider position-relative z-1">
-                    <div className="testimonial-three-active swiper-container">
-                      <div className="swiper-wrapper">
-                        {testimonials.map((t, i) => (
-                          <div
-                            key={t.id}
-                            className="testimonial-three-wrapper d-flex align-items-center tw-gap-9 tw-rounded-lg tw-mb-705 swiper-slide"
-                            data-aos="fade-up"
-                            data-aos-duration="1000"
-                            data-aos-delay={200 + i * 100}
-                          >
-                            <div className="testimonial-three-thumb position-relative z-1">
-                              <img className="w-100 h-100 tw-rounded-lg" src={`/assets/images/thumbs/${t.thumb}`} alt={t.name} />
-                            </div>
-                            <div className="testimonial-three-content w-100">
-                              <div className="d-flex align-items-center justify-content-between tw-mb-16">
-                                <div>
-                                  <span>
-                                    <img src="/assets/images/icons/testimonial-three-icon.svg" alt="icon" />
-                                  </span>
-                                </div>
-                              </div>
-                              <div className="tw-mb-15">
-                                <p className="testimonial-three-paragraph text-heading tw-text-2xl fw-semibold">{t.quote}</p>
-                              </div>
-                              <div>
-                                <h2 className="tw-text-2xl fw-medium">{t.name}</h2>
-                                <p className="tw-text-lg">{t.role}</p>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* ==================== Certificates ==================== */}
-          <style>{`
-            /* Card sizing and layout */
-            .testimonial-three-wrapper { display: inline-block; width: 260px; vertical-align: top; }
-            .cert-card { width: 100%; box-sizing: border-box; }
-
-            /* Thumbnail: fixed height and cover to keep uniform crops */
-            .cert-thumb { width: 100%; height: 160px; overflow: hidden; border-radius: 8px; }
-            .cert-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .25s ease; }
-            .testimonial-three-wrapper:hover .cert-thumb img { transform: scale(1.03); }
-
-            /* View button overlay */
-            .portfolio-three-button { opacity: 0; transform: translateY(6px); transition: all .2s ease; }
-            .testimonial-three-wrapper:hover .portfolio-three-button { opacity: 1; transform: translateY(0); }
-
-            /* Info area below image */
-            .cert-info { padding: 12px 10px; }
-            .cert-info .testimonial-three-paragraph { font-size: 16px; margin: 0 0 6px; }
-            .cert-info b { font-size: 14px; }
-
-            /* Responsive adjustments */
-            @media (max-width: 768px) {
-              .testimonial-three-wrapper { width: 48%; }
-              .cert-thumb { height: 140px; }
-            }
-            @media (max-width: 480px) {
-              .testimonial-three-wrapper { width: 100%; }
-            }
-          `}</style>
-          <section className="certificate-area py-60 position-relative z-1" id="certificates">
-            <div className="container tw-container-1800-px">
-              <div className="row justify-content-center tw-mb-21">
+              <div className="row justify-content-center certificate-heading">
                 <div className="col-xl-10 text-center">
-                  <h2 className="testimonial-three-title text-heading tw-text-15 tw-itm-title tw-itm-anim">Certifications</h2>
-                  <p className="tw-text-lg">Selected professional certificates and completed courses.</p>
+                  <h2
+                    id="certificates-title"
+                    className="testimonial-three-title text-heading tw-text-15"
+                    data-aos="fade-up"
+                    data-aos-duration="400"
+                  >
+                    Certifications
+                  </h2>
                 </div>
               </div>
-              <div className="row">
-                <div className="col-xl-12">
-                  <div className="testimonial-three-slider position-relative z-1">
-                    <div className="testimonial-three-active swiper-container">
-                      <div className="swiper-wrapper">
-                        {certificates.map((c, i) => (
-                          <div
-                            key={c.id}
-                            className="testimonial-three-wrapper tw-rounded-lg tw-mb-705 swiper-slide"
-                            data-aos="fade-up"
-                            data-aos-duration="1000"
-                            data-aos-delay={200 + i * 100}
-                          >
-                            <div className="cert-card tw-rounded-lg position-relative">
-                              <div className="cert-thumb position-relative">
-                                <a className="d-block cursor-hide tw-rounded-lg" href={`/assets/images/certificates/${c.thumb}`} target="_blank" rel="noreferrer">
-                                  <img className="w-100 h-100 tw-rounded-lg" src={`/assets/images/certificates/${c.thumb}`} alt={c.title} />
-                                </a>
-                                <div className="portfolio-three-button" style={{ position: "absolute", top: 12, right: 12 }}>
-                                  <a
-                                    className="portfolio-three-btn tw-w-8 tw-h-8 lh-1 d-inline-flex justify-content-center align-items-center text-heading rounded-circle hover-bg-main-two-600 hover-text-white"
-                                    href={`/assets/images/certificates/${c.thumb}`}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                  >
-                                    <i className="ph ph-arrow-up-right"></i>
-                                  </a>
-                                </div>
-                              </div>
-
-                              <div className="cert-info text-center tw-pt-4 tw-pb-4">
-                                <p className="testimonial-three-paragraph text-heading tw-text-2xl fw-semibold mb-2">{c.title}</p>
-                                <div className="tw-text-lg">
-                                  <b>{(c.skills || []).slice(0, 3).join(" • ")}</b>
-                                </div>
-                              </div>
-                            </div>
+              <div
+                className="certificate-slider position-relative z-1"
+                data-certificate-count={certificates.length}
+              >
+                <div className="certificate-swiper swiper-container" aria-label="Certificates">
+                  <div className="swiper-wrapper">
+                    {certificates.length === 0 ? (
+                      <div className="certificate-slide swiper-slide">
+                        <article className="certificate-card certificate-card--empty">
+                          <div className="certificate-card-content">
+                            <p className="certificate-card-empty">No certificates available yet.</p>
                           </div>
-                        ))}
+                        </article>
                       </div>
-                    </div>
+                    ) : (
+                      certificates.map((certificate) => (
+                        <div key={certificate.id} className="certificate-slide swiper-slide">
+                          <article className="certificate-card">
+                            <div className="certificate-card-image">
+                              {certificate.imageUrl ? (
+                                <img
+                                  src={certificate.imageUrl}
+                                  alt={certificate.name + " certificate"}
+                                  loading="lazy"
+                                />
+                              ) : (
+                                <div className="certificate-image-placeholder">
+                                  <i className="certificate-card-icon ph ph-seal-check" aria-hidden="true" />
+                                </div>
+                              )}
+                            </div>
+                            <div className="certificate-card-content">
+                              <h3 className="certificate-card-name" title={certificate.name}>
+                                {certificate.name}
+                              </h3>
+                              <p className="certificate-card-issuer" title={"Issued by " + certificate.issuer}>
+                                Issued by {certificate.issuer}
+                              </p>
+                              {certificate.skills?.length > 0 && (
+                                <div className="certificate-card-skills" aria-label="Technologies covered">
+                                  {certificate.skills.map((skill) => (
+                                    <span key={certificate.id + "-" + skill} className="certificate-skill-pill">
+                                      <span className="certificate-skill-dot" aria-hidden="true" />
+                                      {skill}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          </article>
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
+                {certificates.length > 1 && (
+                  <div className="certificate-slider-controls" aria-label="Certificate navigation">
+                    <button type="button" className="certificate-slider-prev" aria-label="Previous certificate">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M19 12H5m7-7-7 7 7 7" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </button>
+                    <button type="button" className="certificate-slider-next" aria-label="Next certificate">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M5 12h14m-7-7 7 7-7 7" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </section>
-
           {/* ==================== Core Technologies ==================== */}
           <section className="brand-three-area brand-two-area pb-120">
             <div className="container tw-container-1800-px">

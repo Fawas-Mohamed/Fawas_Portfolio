@@ -51,7 +51,7 @@
     spaceBetween: 10,
     autoplay: true,
     speed: 1500,
-    loop: true,
+    loop: false,
     breakpoints: {
       1200: {
         slidesPerView: 3,
@@ -110,34 +110,38 @@
   }
 
   ////////////////////////////////////////////////////
-  // 06. Testimonial Three Js
-  var slider = new Swiper(".testimonial-three-active", {
-    slidesPerView: 2,
-    spaceBetween: 10,
-    autoplay: true,
-    speed: 1500,
-    loop: true,
-    breakpoints: {
-      1200: {
-        slidesPerView: 2,
+  // 06. Certifications Slider
+  const certificateSliderElement = document.querySelector(".certificate-swiper");
+
+  if (certificateSliderElement && !certificateSliderElement.querySelector(".certificate-card-empty")) {
+    const certificateCount = certificateSliderElement.querySelectorAll(".certificate-slide").length;
+
+    new Swiper(certificateSliderElement, {
+      slidesPerView: 1,
+      slidesPerGroup: 1,
+      spaceBetween: 16,
+      speed: 500,
+      loop: certificateCount > 3,
+      watchOverflow: true,
+      autoplay: certificateCount > 1 ? {
+        delay: 2500,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+      } : false,
+      breakpoints: {
+        768: {
+          slidesPerView: Math.min(2, certificateCount),
+          spaceBetween: 20,
+        },
+        1200: {
+          slidesPerView: Math.min(3, certificateCount),
+          spaceBetween: 24,
+        },
       },
-      992: {
-        slidesPerView: 1,
+      navigation: {
+        nextEl: ".certificate-slider-next",
+        prevEl: ".certificate-slider-prev",
       },
-      768: {
-        slidesPerView: 1,
-      },
-      576: {
-        slidesPerView: 1,
-      },
-      0: {
-        slidesPerView: 1,
-      },
-    },
-    // Navigation arrows
-    navigation: {
-      nextEl: ".slider-next",
-      prevEl: ".slider-prev",
-    },
-  });
+    });
+  }
 })(jQuery);
